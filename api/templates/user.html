@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simple Form</title>
+  </head>
+  <body>
+    <h2>User Information Form</h2>
+    <form id="userForm">
+      <label for="name">Name:</label><br />
+      <input type="text" id="name" name="name" required /><br /><br />
+
+      <label for="user_id">User ID:</label><br />
+      <input type="text" id="user_id" name="user_id" required /><br /><br />
+
+      <input type="submit" value="Submit" />
+    </form>
+
+    <div id="result" style="margin-top: 20px">
+      <!-- Link will be displayed here -->
+    </div>
+
+    <script>
+      // JavaScript to handle form submission and send data to Flask
+      document
+        .getElementById("userForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault(); // Prevent default form submission
+
+          const name = document.getElementById("name").value;
+          const user_id = document.getElementById("user_id").value;
+
+          // Prepare the data to be sent to the server
+          const data = {
+            name: name,
+            id: user_id,
+          };
+
+          // Send a POST request to the Flask backend
+          fetch("/user/add", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data), // Convert data to JSON string
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              // Display a profile link after submission if successful
+              const resultDiv = document.getElementById("result");
+              if (data.message) {
+                resultDiv.innerHTML = `
+                        <p>Thank you, ${data.name}. Your profile link is:</p>
+                        <a href="/user/${data.id}">View Profile</a>
+                    `;
+              } else {
+                resultDiv.innerHTML = `<p>Error: ${data.error}</p>`;
+              }
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+            });
+        });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,6 @@
+install pip:
+pip install firebase-admin
+pip install Flask
+
+
+run main.py
