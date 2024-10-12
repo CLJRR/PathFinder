@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+  </head>
+  <body>
+    <h2>Login Form</h2>
+    <form id="loginForm" method="POST">
+      <!-- Add method="POST" here -->
+      <label for="name">Name:</label><br />
+      <input type="text" id="name" name="name" required /><br /><br />
+
+      <label for="password">Password:</label><br />
+      <input
+        type="password"
+        id="password"
+        name="password"
+        required
+      /><br /><br />
+
+      <input type="submit" value="Login" />
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+      // JavaScript to handle form submission and login request
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault(); // Prevent page refresh
+
+          const name = document.getElementById("name").value;
+          const password = document.getElementById("password").value;
+
+          const data = {
+            name: name,
+            password: password,
+          };
+
+          // Send a POST request to verify login
+          fetch("/login/verify", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data), // Send the form data as JSON
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              const resultDiv = document.getElementById("result");
+              if (data.message) {
+                // Save username to localStorage
+                localStorage.setItem("username", data.user.name);
+
+                // Redirect to the homepage
+                window.location.href = "/home";
+              } else {
+                resultDiv.innerHTML = `<p>Login failed: ${data.error}</p>`;
+              }
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+            });
+        });
+    </script>
+  </body>
+</html>

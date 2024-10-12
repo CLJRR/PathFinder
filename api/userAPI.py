@@ -5,18 +5,10 @@ db = firestore.client()
 user_Ref = db.collection("users")
 userAPI = Blueprint("userAPI",__name__)
 
-
-
-
-
 # render html
 @userAPI.route('/form', methods=['GET'])
 def show_form():
     return render_template('user.html')
-
-
-
-
 
 @userAPI.route('/add', methods=['POST'])
 def create_user():
@@ -24,7 +16,6 @@ def create_user():
     user_id = data.get('id')
     name = data.get('name')
 
-    
     if user_id and name:
         user_Ref.document(user_id).set({'name': name,'id' : user_id})
         # user_Ref.document(user_id).set({'name': name})
