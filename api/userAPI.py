@@ -25,7 +25,7 @@ def create_user():
         return jsonify({"error": "Invalid input"}), 400
 
 # GET: Retrieve a user by ID
-@userAPI.route('/<user_id>', methods=['GET'])
+@userAPI.route('/<name>', methods=['GET'])
 def get_user(user_id):
     user_doc = user_Ref.document(user_id).get()
     

@@ -5,7 +5,9 @@ db = firestore.client()
 dbCollection = db.collection("employees")
 employeeAPI = Blueprint("employeeAPI",__name__)
 
-
+@employeeAPI.route('/',methods = ['GET'])
+def show_form():
+    return render_template('employeeDashboard.html')
 
 @employeeAPI.route('/employees/<name>',methods = ['GET'])
 def get_employee(name):

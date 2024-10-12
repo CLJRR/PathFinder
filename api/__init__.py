@@ -13,6 +13,6 @@ def create_app():
         from .login import login
         from .employeeAPI import employeeAPI
         app.register_blueprint(userAPI,url_prefix='/user')
-        app.register_blueprint(employeeAPI,url_prefix='/employeedashboard')
+        app.register_blueprint(employeeAPI,url_prefix='/employeeDashboard')
         app.register_blueprint(login,url_prefix='/login')
         return app
