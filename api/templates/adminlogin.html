@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="User Login Page" />
     <link rel="stylesheet" href="../static/login.css" />
-    <title>User Login</title>
+    <title>Admin Login</title>
   </head>
   <body>
     <div class="login-container">
       <div class="login-box">
-        <h2>Employee Login</h2>
+        <h2>Admin Login</h2>
         <!-- Form submits data to /verify -->
         <form id="loginForm" onsubmit="handleLogin(event)" method="POST">
           <div class="input-group">
@@ -22,10 +22,10 @@
             <input type="password" id="password" name="password" required />
           </div>
           <div class="input-group">
-            <button type="submit" class="login-button">Login</button>
+            <button type="submit" class="login-button">Admin Login</button>
           </div>
+          <a href="/login" class="login-button_grey">Back to Login</a>
         </form>
-        <a href="/adminlogin" class="login-button_grey">To Admin Login</a>
       </div>
     </div>
   </body>
@@ -43,8 +43,8 @@
         password: password,
       };
 
-      // Send a POST request /login/verify to verify login
-      fetch("/login/verify", {
+      // Send a POST request to verify login
+      fetch("/adminlogin/verify", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -57,7 +57,7 @@
             // Save username to localStorage
             localStorage.setItem("username", data.user.name);
             // Redirect to the employee dashboard
-            window.location.href = "../employeeDashboard";
+            window.location.href = "../adminDashboard";
           } else {
             alert("Invalid username or password. Please try again.");
           }

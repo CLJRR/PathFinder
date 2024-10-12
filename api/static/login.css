@@ -76,7 +76,16 @@
     font-size: 1rem;
     cursor: pointer;
   }
-  
+  .login-button_grey {
+    width: 100%;
+    padding: 10px;
+    background-color: #adadad;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
   .login-button:hover {
     background-color: #0056b3;
   }
