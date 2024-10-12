@@ -18,14 +18,8 @@ def getallmentor():
     all_users_data = []
     for user in users:
         if user.exists:
-            # Get the 'skills' subcollection for each user
-            skills_ref = dbCollection.document(user.id).collection("skills").stream()
-            skills = [skill.id for skill in skills_ref]  # Get the document IDs for the skills
-
             # Combine the user's data and skills in the response
             user_data = user.to_dict()
-            user_data['skills'] = skills
-            
             all_users_data.append(user_data)
         
     if all_users_data:

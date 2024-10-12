@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>username Dashboard</title>
     <link rel="stylesheet" href="../static/employeDashboard.css" />
+    <link rel="stylesheet" href="../static/nav.css" />
     <script>
       // Retrieve the username from localStorage
       const username = localStorage.getItem("username");
@@ -31,6 +32,15 @@
   </head>
 
   <body>
+    <nav class="navbar">
+      <a href="#" class="logo">Mentor System</a>
+      <ul>
+        <li><a href="/employeeDashboard">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <link rel="stylesheet" href="../static/nav.css" />
     <section class="dashboard">
       <!-- Add an ID to the <h1> so we can easily target it in JavaScript -->
       <h1 id="usernameDisplay">Loading...</h1>
