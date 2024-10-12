@@ -8,7 +8,7 @@ mentorAPI = Blueprint("mentorAPI",__name__)
 
 @mentorAPI.route('/', methods=['GET'])
 def showmentorpage():
-    return render_template("mentors.html")
+    return render_template("mentoringboard.html")
 
 
 @mentorAPI.route('/getall', methods=['GET'])
