@@ -1,38 +1,41 @@
-from flask import Blueprint,request,jsonify, render_template, redirect, url_for
-from firebase_admin import firestore
+import openai
+from flask import Blueprint, request, jsonify, render_template
 
-db = firestore.client()
-dbCollection = db.collection("employees")
 chatbotAPI = Blueprint('chatbotAPI', __name__)
 
-# chatbotAPI.py
-import openai
+# OpenAI API Key
+openai.api_key = "your-openai-api-key-here"
 
-# Set your OpenAI API key here
-openai.api_key = "your-api-key-here"
+@chatbotAPI.route('/get_response', methods=['POST'])
+def get_bot_response():
+    # Get the user message from the frontend
+    user_message = request.json.get("message")
+    
+    # Log the received message for debugging
+    print(f"Received message: {user_message}")
 
-# System message to set the context for the chatbot
-system_message = """
-You are a mental health support assistant. 
-Your goal is to only answer questions related to mental health, emotional well-being, 
-self-care, and coping strategies. Always be supportive and provide advice on seeking professional help when needed.
-"""
+    if not user_message:
+        return jsonify({"response": "Please enter a valid message."})
 
-def get_openai_response(user_input):
-    """
-    Sends the user input to OpenAI's GPT-4 model and returns the response.
-    """
-    response = openai.ChatCompletion.create(
-        model="gpt-4",  # Use GPT-4
-        messages=[
-            {"role": "system", "content": system_message},
-            {"role": "user", "content": user_input}
-        ],
-        max_tokens=150  # Adjust based on response length
-    )
-    return response.choices[0].message["content"].strip()
+    try:
+        # Call OpenAI GPT-4 API
+        response = openai.ChatCompletion.create(
+            model="gpt-4",
+            messages=[
+                {"role": "system", "content": "You are a mental health support chatbot."},
+                {"role": "user", "content": user_message}
+            ],
+            max_tokens=150
+        )
 
+        bot_message = response.choices[0].message["content"]
 
-@chatbotAPI.route('/', methods=['GET'])
-def show_form():
-    return render_template('chatbot.html')
+        # Log the bot response for debugging
+        print(f"Bot response: {bot_message}")
+
+        return jsonify({"response": bot_message})
+
+    except Exception as e:
+        # Log any errors that occur during API call
+        print(f"Error calling OpenAI API: {e}")
+        return jsonify({"response": "There was an error generating a response."})

@@ -3,14 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chatbot Section</title>
-    <!-- Link to the external CSS file -->
+    <title>Mental Health Chatbot</title>
     <link rel="stylesheet" href="chatbot.css" />
   </head>
   <body>
     <div class="chatbot-container">
       <div class="chat-header">
-        Chatbot
+        Mental Health Chatbot
       </div>
       <div class="chat-body" id="chat-body">
         <!-- Chat messages will appear here -->
@@ -34,14 +33,25 @@
         // Display user message
         appendMessage('user', userInput);
 
+        // Send user input to the backend (Flask API)
+        fetch('/get_response', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ message: userInput }),
+        })
+        .then(response => response.json())
+        .then(data => {
+          // Display bot response
+          appendMessage('bot', data.response);
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+
         // Clear input field
         document.getElementById('user-input').value = '';
-
-        // Fake a bot response after 1 second
-        setTimeout(() => {
-          const botResponse = getBotResponse(userInput);
-          appendMessage('bot', botResponse);
-        }, 1000);
       }
 
       function appendMessage(sender, message) {
@@ -53,18 +63,6 @@
 
         // Scroll to the bottom
         chatBody.scrollTop = chatBody.scrollHeight;
-      }
-
-      function getBotResponse(input) {
-        // Simple bot response logic (you can customize this)
-        const responses = {
-          hello: 'Hi there! How can I assist you?',
-          help: 'Sure, I am here to help. What do you need assistance with?',
-          bye: 'Goodbye! Have a nice day!',
-        };
-
-        const response = responses[input.toLowerCase()];
-        return response || "Sorry, I don't understand that.";
       }
 
       function handleEnter(event) {
