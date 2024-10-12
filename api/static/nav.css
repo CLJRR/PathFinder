@@ -66,3 +66,8 @@
 body {
     padding-top: 70px; /* Adjust based on the height of the navbar */
 }
+p{
+    font-size: 30px;
+    font-weight: bold;
+    color: white;
+}
