@@ -4,15 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="User Login Page" />
-    <link rel="stylesheet" href="login.css" />
+    <link rel="stylesheet" href="../static/login.css" />
     <title>User Login</title>
     <script>
       function handleLogin(event) {
         event.preventDefault(); // Prevent form submission and page reload
 
         // Get the values from the input fields
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
 
         // Example login validation: You can replace this with real authentication
         const validUsername = "user";
