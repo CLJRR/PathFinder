@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chatbot Section</title>
+    <!-- Link to the external CSS file -->
+    <link rel="stylesheet" href="chatbot.css" />
+  </head>
+  <body>
+    <div class="chatbot-container">
+      <div class="chat-header">
+        Chatbot
+      </div>
+      <div class="chat-body" id="chat-body">
+        <!-- Chat messages will appear here -->
+      </div>
+      <div class="chat-input-container">
+        <input
+          type="text"
+          id="user-input"
+          placeholder="Type a message..."
+          onkeypress="handleEnter(event)"
+        />
+        <button onclick="sendMessage()">Send</button>
+      </div>
+    </div>
+
+    <script>
+      function sendMessage() {
+        const userInput = document.getElementById('user-input').value;
+        if (userInput.trim() === '') return;
+
+        // Display user message
+        appendMessage('user', userInput);
+
+        // Clear input field
+        document.getElementById('user-input').value = '';
+
+        // Fake a bot response after 1 second
+        setTimeout(() => {
+          const botResponse = getBotResponse(userInput);
+          appendMessage('bot', botResponse);
+        }, 1000);
+      }
+
+      function appendMessage(sender, message) {
+        const chatBody = document.getElementById('chat-body');
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('chat-message', sender);
+        messageElement.textContent = message;
+        chatBody.appendChild(messageElement);
+
+        // Scroll to the bottom
+        chatBody.scrollTop = chatBody.scrollHeight;
+      }
+
+      function getBotResponse(input) {
+        // Simple bot response logic (you can customize this)
+        const responses = {
+          hello: 'Hi there! How can I assist you?',
+          help: 'Sure, I am here to help. What do you need assistance with?',
+          bye: 'Goodbye! Have a nice day!',
+        };
+
+        const response = responses[input.toLowerCase()];
+        return response || "Sorry, I don't understand that.";
+      }
+
+      function handleEnter(event) {
+        if (event.key === 'Enter') {
+          sendMessage();
+        }
+      }
+    </script>
+  </body>
+</html>
