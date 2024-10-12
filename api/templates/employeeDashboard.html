@@ -1,1 +1,50 @@
-helloworld
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>username Dashboard</title>
+  <link rel="stylesheet" href="../static/employeDashboard.css" />
+  <script>
+    // Retrieve the username from localStorage
+    const username = localStorage.getItem("username");
+    
+    // Wait until the DOM content is fully loaded
+    document.addEventListener("DOMContentLoaded", function() {
+      // Find the <h1> element and replace its content with the username
+        document.getElementById("usernameDisplay").textContent = (username || "Guest").toUpperCase();
+    });
+  </script>
+</head>
+
+<body>
+  <section class="dashboard">
+    <!-- Add an ID to the <h1> so we can easily target it in JavaScript -->
+    <h1 id="usernameDisplay">Loading...</h1>
+    <div class="card-container">
+      <div class="card">
+        <img src="https://via.placeholder.com/300x150" alt="Talent Training Image">
+        <a href="#">Look to be a better you ➔</a>
+        <h2>Talent Training</h2>
+        <a href="/mentoringboard.html">Mentoring System</a>
+        <p>UpSkilling Courses</p>
+        
+      </div>
+      <div class="card">
+        <img src="https://via.placeholder.com/300x150" alt="Mental Health Image">
+        <a href="#">How we can help you ➔</a>
+        <h2>Mental Health</h2>
+        <p>Mental Health Chatbot <br> Wellness Plans</p>
+        
+      </div>
+      <div class="card">
+        <img src="https://via.placeholder.com/300x150" alt="Your Details Image">
+        <a href="#">How we can help you ➔</a>
+        <h2>Your Details</h2>
+        <p>Update Particulars <br> Manage Account</p>
+        
+      </div>
+    </div>
+  </section>
+</body>
+</html>
