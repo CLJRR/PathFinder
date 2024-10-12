@@ -6,33 +6,13 @@
     <meta name="description" content="User Login Page" />
     <link rel="stylesheet" href="../static/login.css" />
     <title>User Login</title>
-    <script>
-      function handleLogin(event) {
-        event.preventDefault(); // Prevent form submission and page reload
-
-        // Get the values from the input fields
-        const username = document.getElementById("username").value;
-        const password = document.getElementById("password").value;
-
-        // Example login validation: You can replace this with real authentication
-        const validUsername = "user";
-        const validPassword = "1234";
-
-        if (username === validUsername && password === validPassword) {
-          // Redirect to the employee dashboard if login is successful
-          window.location.href = "employee-Dashboard.html";
-        } else {
-          // Show an alert if the login fails
-          alert("Invalid username or password. Please try again.");
-        }
-      }
-    </script>
   </head>
   <body>
     <div class="login-container">
       <div class="login-box">
         <h2>Login</h2>
-        <form onsubmit="handleLogin(event)">
+        <!-- Form submits data to /verify -->
+        <form id="loginForm" onsubmit="handleLogin(event)" method="POST">
           <div class="input-group">
             <label for="username">Username</label>
             <input type="text" id="username" name="username" required />
@@ -48,4 +28,42 @@
       </div>
     </div>
   </body>
+  <script>
+    function handleLogin(event) {
+      event.preventDefault(); // Prevent form submission and page reload
+
+      // Get the values from the input fields
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      // Prepare data to be sent
+      const data = {
+        name: username,
+        password: password,
+      };
+
+      // Send a POST request to verify login
+      fetch("/login/verify", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data), // Send the form data as JSON
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.message) {
+            // Save username to localStorage
+            localStorage.setItem("username", data.user.name);
+            // Redirect to the employee dashboard
+            window.location.href = "../employeeDashboard";
+          } else {
+            alert("Invalid username or password. Please try again.");
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    }
+  </script>
 </html>

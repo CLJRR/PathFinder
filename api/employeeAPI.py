@@ -9,6 +9,11 @@ employeeAPI = Blueprint("employeeAPI",__name__)
 def show_form():
     return render_template('employee-Dashboard.html')
 
+=======
+@employeeAPI.route('/',methods = ['GET'])
+def show_form():
+    return render_template('employeeDashboard.html')
+>>>>>>> 9a9ca419e405938478f1192621e7a12ec485be2b
 
 @employeeAPI.route('/employees/<name>',methods = ['GET'])
 def get_employee(name):
