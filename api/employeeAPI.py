@@ -43,6 +43,18 @@ def display_kpi(name):
         employee_data = employee_doc.todict()
         employee_incidents = employee_data.get("incidents")
 
+    if employee_incidents >= kpi_incidents:
+        return render_template('employee.html', risk = "High Risk")
     
+    elif employee_incidents > kpi_incidents / 2:
+        return render_template('employee.html', risk = "Medium Risk")
+    
+    elif employee_incidents > kpi_incidents / 3:
+        return render_template('employee.html', risk = "Low Risk")
+    
+    else:
+        return render_template('employee.html', risk = "No Risk")
+        
+
 
     
