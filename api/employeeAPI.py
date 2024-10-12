@@ -5,6 +5,9 @@ db = firestore.client()
 dbCollection = db.collection("employees")
 employeeAPI = Blueprint("employeeAPI",__name__)
 
+@employeeAPI.route('/employees/<name>', methods=['GET'])
+def show_form():
+    return render_template('employee-Dashboard.html')
 
 
 @employeeAPI.route('/employees/<name>',methods = ['GET'])
@@ -17,16 +20,6 @@ def get_employee(name):
             return jsonify({"error":"Employee not found"}), 404
     except Exception as e:
         return jsonify({"error": str(e)}),500
-
-
-@employeeAPI.route('/employee/<name>', methods = ['GET'])
-def display_employee(name):
-    employee_document = dbCollection.document(name).get()
-    if employee_document.exists:
-        employee_data = employee_document.to_dict()
-        return render_template('employee.html',employee = employee_data)
-    else:
-        return "Employee not found", 404
     
 
 @employeeAPI.route('/employee/<name>/kpi', methods = ['GET'])
