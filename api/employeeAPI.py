@@ -9,7 +9,7 @@ employeeAPI = Blueprint("employeeAPI",__name__)
 def show_form():
     return render_template('employeeDashboard.html')
 
-@employeeAPI.route('/employees/<name>',methods = ['GET'])
+@employeeAPI.route('/',methods = ['GET'])
 def get_employee(name):
     try:
         employee_document = dbCollection.document(name).get()
@@ -22,7 +22,7 @@ def get_employee(name):
         return jsonify({"error": str(e)}),500
     
 
-@employeeAPI.route('/employee/<name>/kpi', methods = ['GET'])
+@employeeAPI.route('/', methods = ['GET'])
 def display_kpi(name):
     kpi_ref= db.collection('kpi').document('base')
     kpi_doc = kpi_ref.get()
