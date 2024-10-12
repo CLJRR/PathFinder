@@ -1,83 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mentoring System</title>
-    <link rel="stylesheet" href="../static/mentoringboard.css">
-</head>
-<body>
+    <link rel="stylesheet" href="../static/mentoringboard.css" />
+  </head>
+  <body>
     <div class="container">
-        <header>
-            <img src="logo-placeholder.png" alt="Company Logo" class="logo">
-            <h1>Mentoring System</h1>
-            <p>We have provided mentors based on your current job description! Take a look!</p>
-        </header>
-        
-        <section class="mentor-grid" id="mentorGrid">
-            <!-- Mentor cards will be injected here dynamically -->
-        </section>
+      <header>
+        <img src="logo-placeholder.png" alt="Company Logo" class="logo" />
+        <h1>Mentoring System</h1>
+        <p>
+          We have provided mentors based on your current job description! Take a
+          look!
+        </p>
+      </header>
+
+      <section class="mentor-grid" id="mentorGrid">
+        <!-- Mentor cards will be injected here dynamically -->
+      </section>
     </div>
 
     <script>
-        // Simulate API call
-        async function fetchMentorData() {
-            // Replace this with the actual API call, e.g., fetch('your-api-url')
-            return [
-                {
-                    fullName: "John Doe",
-                    role: "Senior Engineer at Company A",
-                    previous: ["Company 1", "Company 2"],
-                    about: "I am passionate about mentoring and helping others grow in their careers.",
-                    image: "https://via.placeholder.com/100" // Use real image URL from backend
-                },
-                {
-                    fullName: "Jane Smith",
-                    role: "Manager at Company B",
-                    previous: ["Company 3", "Company 4"],
-                    about: "I have over 10 years of experience leading teams and developing talent.",
-                    image: "https://via.placeholder.com/100"
-                },
-                {
-                    fullName: "Sam Wilson",
-                    role: "Software Developer at Company C",
-                    previous: ["Company 5", "Company 6"],
-                    about: "I specialize in full-stack development and love solving complex problems.",
-                    image: "https://via.placeholder.com/100"
-                }
-            ];
-        }
+      // Function to create mentor cards dynamically
+      function generateMentorCards(mentors) {
+        const mentorGrid = document.getElementById("mentorGrid");
+        mentorGrid.innerHTML = ""; // Clear existing content if any
 
-        // Function to create mentor cards dynamically
-        function generateMentorCards(mentors) {
-            const mentorGrid = document.getElementById('mentorGrid');
-            mentorGrid.innerHTML = ''; // Clear existing content if any
+        mentors.forEach((mentor) => {
+          const mentorCard = document.createElement("div");
+          mentorCard.classList.add("mentor-card");
 
-            mentors.forEach(mentor => {
-                const mentorCard = document.createElement('div');
-                mentorCard.classList.add('mentor-card');
+          mentorCard.innerHTML = `
+          <div class="mentor-image">
+              <img src="https://via.placeholder.com/100" alt="${mentor.name}">
+          </div>
+          <h3>${mentor.name}</h3>
+          <h3>${mentor.email}</h3>
+          <h4>Position: ${mentor.position}</h4>
+          <p>Skills: ${
+            mentor.skills.length > 0 ? mentor.skills.join(", ") : "N/A"
+          }</p>
+          <p>${mentor.summary}</p>
+      `;
 
-                mentorCard.innerHTML = `
-                    <div class="mentor-image">
-                        <img src="${mentor.image}" alt="${mentor.fullName}">
-                    </div>
-                    <h3>${mentor.fullName}</h3>
-                    <p>${mentor.role}</p>
-                    <p>Previously: ${mentor.previous.join(', ')}</p>
-                    <p>${mentor.about}</p>
-                `;
+          mentorGrid.appendChild(mentorCard);
+        });
+      }
 
-                mentorGrid.appendChild(mentorCard);
-            });
-        }
-
-        // Fetch data from API and generate mentor cards
-        fetchMentorData().then(mentors => generateMentorCards(mentors));
-        // Fetch mentor data from your API endpoint
-        fetch("/mentor/getall")
+      // Fetch mentor data from the JSON file and generate mentor cards
+      fetch("/mentor/getall")
         .then((response) => response.json())
-        .then((data) => renderMentors(data))
+        .then((data) => generateMentorCards(data))
         .catch((error) => console.error("Error fetching mentor data:", error));
     </script>
-</body>
+  </body>
 </html>
