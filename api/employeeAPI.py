@@ -14,21 +14,12 @@ def get_employee(name):
     try:
         employee_document = dbCollection.document(name).get()
         if name.exists:
-            return jsonify(employee_document.todict()),200
+            employee_data = employee_document.to_dict()
+            return render_template('employeeDashboard.html',employee = employee_data)
         else:
             return jsonify({"error":"Employee not found"}), 404
     except Exception as e:
         return jsonify({"error": str(e)}),500
-
-
-@employeeAPI.route('/employee/<name>', methods = ['GET'])
-def display_employee(name):
-    employee_document = dbCollection.document(name).get()
-    if employee_document.exists:
-        employee_data = employee_document.to_dict()
-        return render_template('employee.html',employee = employee_data)
-    else:
-        return "Employee not found", 404
     
 
 @employeeAPI.route('/employee/<name>/kpi', methods = ['GET'])
