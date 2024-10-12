@@ -13,7 +13,7 @@ def show_form():
 def employee_dashboard(name):
     try:
         # Fetch employee personal information from 'employees' collection
-        employee_document = db.collection('employees').document(name).get()
+        employee_document = dbCollection.document(name).get()
 
         if employee_document.exists:
             employee_data = employee_document.to_dict()
@@ -50,8 +50,20 @@ def employee_dashboard(name):
         else:
             risk = "No Risk"
 
-        # Render the template with both employee data and risk level
-        return render_template('employeeDashboard.html', employee=employee_data, risk=risk)
+        response_data = {
+            "employee_data": employee_data,
+            "kpi_data": {
+                "maxIncidents": kpi_incidents,
+                "employeeIncidents": employee_incidents,
+                "risk": risk
+            }
+        }
+
+        # Return the combined JSON object
+        return jsonify(response_data), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
