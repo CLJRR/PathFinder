@@ -11,4 +11,5 @@ def create_app():
         app.config['SECRET_KEY'] = '12345678'
         from .userAPI import userAPI
         app.register_blueprint(userAPI,url_prefix='/user')
+        app.register_blueprint(employeeAPI,url_prefix='/employeedashboard')
         return app
