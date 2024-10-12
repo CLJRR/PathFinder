@@ -1,41 +1,49 @@
 import openai
 from flask import Blueprint, request, jsonify, render_template
 
+# Create the chatbotAPI Blueprint
 chatbotAPI = Blueprint('chatbotAPI', __name__)
 
-# OpenAI API Key
-openai.api_key = "your-openai-api-key-here"
+# Set your OpenAI API key
+openai.api_key = "sk-9SnSdZNt5k646FZLmaLRd75FlQmgMn4DOM5K1gwRlXT3BlbkFJz7LlzH4eYULgxBoxQBJvITNmjsyjjNEieQ972tlQgA"
 
+# Define the system message to restrict the bot's responses to mental health topics
+system_message = """
+You are a mental health support assistant. Your goal is to answer questions related to mental health,
+emotional well-being, coping strategies, stress management, and self-care. Politely refuse to answer any questions that are not related to mental health.
+"""
+
+# Route to serve the chatbot HTML form
+@chatbotAPI.route('/', methods=['GET'])
+def show_chatbot():
+    return render_template('chatbot.html')
+
+# Route to handle user input and return the bot response
 @chatbotAPI.route('/get_response', methods=['POST'])
 def get_bot_response():
-    # Get the user message from the frontend
+    # Get the user's message from the request
     user_message = request.json.get("message")
     
-    # Log the received message for debugging
-    print(f"Received message: {user_message}")
+    print(f"Received message: {user_message}")  # Log the received message
 
     if not user_message:
-        return jsonify({"response": "Please enter a valid message."})
+        return jsonify({"response": "Please ask me something about mental health."})
 
     try:
-        # Call OpenAI GPT-4 API
-        response = openai.ChatCompletion.create(
+        # Use the new OpenAI API (openai>=1.0.0) interface
+        response = openai.completions.create(
             model="gpt-4",
-            messages=[
-                {"role": "system", "content": "You are a mental health support chatbot."},
-                {"role": "user", "content": user_message}
-            ],
-            max_tokens=150
+            prompt=f"{system_message}\nUser: {user_message}\nAssistant:",
+            max_tokens=150  # Adjust token limit as necessary
         )
-
-        bot_message = response.choices[0].message["content"]
-
-        # Log the bot response for debugging
-        print(f"Bot response: {bot_message}")
+        
+        # Get the bot's response from the OpenAI API response
+        bot_message = response.choices[0].text.strip()  # Extract the bot's response from the 'text' field
+        print(f"Bot response: {bot_message}")  # Log the bot response
 
         return jsonify({"response": bot_message})
 
     except Exception as e:
-        # Log any errors that occur during API call
+        # Log the error and return a default error message
         print(f"Error calling OpenAI API: {e}")
-        return jsonify({"response": "There was an error generating a response."})
+        return jsonify({"response": "Sorry, I couldn't process your request right now. Please try again later."})

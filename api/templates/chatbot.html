@@ -4,21 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mental Health Chatbot</title>
-    <link rel="stylesheet" href="chatbot.css" />
+    <link rel="stylesheet" href="../static/chatbot.css" />
   </head>
   <body>
     <div class="chatbot-container">
-      <div class="chat-header">
-        Mental Health Chatbot
-      </div>
-      <div class="chat-body" id="chat-body">
-        <!-- Chat messages will appear here -->
-      </div>
+      <div class="chat-header">Mental Health Chatbot</div>
+      <div class="chat-body" id="chat-body"></div>
       <div class="chat-input-container">
         <input
           type="text"
           id="user-input"
-          placeholder="Type a message..."
+          placeholder="Type your message here..."
           onkeypress="handleEnter(event)"
         />
         <button onclick="sendMessage()">Send</button>
@@ -30,27 +26,28 @@
         const userInput = document.getElementById('user-input').value;
         if (userInput.trim() === '') return;
 
-        // Display user message
+        // Display user message in the chat
         appendMessage('user', userInput);
 
-        // Send user input to the backend (Flask API)
-        fetch('/get_response', {
+        // Send user message to the backend
+        fetch('/chatbot/get_response', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ message: userInput }),
+          body: JSON.stringify({ message: userInput }),  // Send the user's message
         })
         .then(response => response.json())
         .then(data => {
-          // Display bot response
+          // Display the bot's response in the chat
           appendMessage('bot', data.response);
         })
         .catch((error) => {
           console.error('Error:', error);
+          appendMessage('bot', "Sorry, something went wrong.");
         });
 
-        // Clear input field
+        // Clear the input field after sending
         document.getElementById('user-input').value = '';
       }
 
@@ -61,7 +58,7 @@
         messageElement.textContent = message;
         chatBody.appendChild(messageElement);
 
-        // Scroll to the bottom
+        // Scroll to the bottom of the chat body
         chatBody.scrollTop = chatBody.scrollHeight;
       }
 
