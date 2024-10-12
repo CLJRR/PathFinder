@@ -15,4 +15,5 @@ def create_app():
         app.register_blueprint(userAPI,url_prefix='/user')
         app.register_blueprint(employeeAPI,url_prefix='/employeeDashboard')
         app.register_blueprint(login,url_prefix='/login')
+        #app.register_blueprint(adminAPI,url_prefix='/adminDashboard')
         return app
