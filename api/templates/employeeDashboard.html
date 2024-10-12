@@ -1,67 +1,168 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>username Dashboard</title>
+    <link rel="stylesheet" href="../static/employeDashboard.css" />
+    <script>
+      // Retrieve the username from localStorage
+      const username = localStorage.getItem("username");
+
+      // Wait until the DOM content is fully loaded
+      document.addEventListener("DOMContentLoaded", function () {
+        // Find the <h1> element and replace its content with the username
+        document.getElementById("usernameDisplay").textContent = (
+          username || "Guest"
+        ).toUpperCase();
+      });
+    </script>
+  </head>
+
+  <body>
+    <section class="dashboard">
+
+      <h1 id="usernameDisplay">Loading...</h1>
+      <div class="card-container">
+        <div class="card">
+          <img
+            src="https://via.placeholder.com/300x150"
+            alt="Talent Training Image"
+          />
+          <a href="#">Look to be a better you ➔</a>
+          <h2>Talent Training</h2>
+          <a href="/mentor">Mentoring System</a>
+          <p>UpSkilling Courses</p>
+        </div>
+        <div class="card">
+          <img
+            src="https://via.placeholder.com/300x150"
+            alt="Mental Health Image"
+          />
+          <a href="#">How we can help you ➔</a>
+          <h2>Mental Health</h2>
+          <p>
+            <a href="/chatbot">Mental Health Chatbot</a> <br />
+            Wellness Plans
+          </p>
+        </div>
+        <div class="card">
+          <img
+            src="https://via.placeholder.com/300x150"
+            alt="Your Details Image"
+          />
+          <a href="#">How we can help you ➔</a>
+          <h2>Your Details</h2>
+          <p>
+            Update Particulars <br />
+            Manage Account
+          </p>
+        </div>
+        <div class="card">
+          <img
+            src="https://via.placeholder.com/300x150"
+            alt="Your Details Image"
+          />
+          <a href="#">For your Attention ➔</a>
+          <h2>Your Performance</h2>
+          <p>View Key Performance Indicators <br />Risk Level {risk}</p>
+        </div>
+      </div>
+    </section>
+  </body>
+  <script>
+    let name = localStorage.getItem("username");
+    fetch("/employeeDashboard/${name}")
+      .then((response) => response.json())
+      .then((data) => renderMentors(data))
+      .catch((error) => console.error("Error fetching KPI Data:", error));
+  </script>
+</html> -->
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>username Dashboard</title>
-  <link rel="stylesheet" href="../static/employeDashboard.css" />
-  <script>
-    // Retrieve the username from localStorage
-    const username = localStorage.getItem("username");
-    
-    // Wait until the DOM content is fully loaded
-    document.addEventListener("DOMContentLoaded", function() {
-      // Find the <h1> element and replace its content with the username
-        document.getElementById("usernameDisplay").textContent = (username || "Guest").toUpperCase();
-    });
-  </script>
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>username Dashboard</title>
+    <link rel="stylesheet" href="../static/employeDashboard.css" />
+    <script>
+      // Retrieve the username from localStorage
+      const username = localStorage.getItem("username");
 
-<body>
-  <section class="dashboard">
-    <!-- Add an ID to the <h1> so we can easily target it in JavaScript -->
-    <h1 id="usernameDisplay">Loading...</h1>
-    <div class="card-container">
-      <div class="card">
-        <img src="https://via.placeholder.com/300x150" alt="Talent Training Image">
-        <a href="#">Look to be a better you ➔</a>
-        <h2>Talent Training</h2>
-        <a href="/mentor">Mentoring System</a>
-        <p>UpSkilling Courses</p>
-        
-      </div>
-      <div class="card">
-        <img src="https://via.placeholder.com/300x150" alt="Mental Health Image">
-        <a href="#">How we can help you ➔</a>
-        <h2>Mental Health</h2>
-        <p>
-          <a href="/chatbot">Mental Health Chatbot</a> <br> 
-          Wellness Plans
-        </p>
-        
-      </div>
-      <div class="card">
-        <img src="https://via.placeholder.com/300x150" alt="Your Details Image">
-        <a href="#">How we can help you ➔</a>
-        <h2>Your Details</h2>
-        <p>Update Particulars <br> Manage Account</p>
-      
-      </div>
-      <div class = "card">
-        <img src="https://via.placeholder.com/300x150" alt="Your Details Image">
-        <a href="#">For your Attention ➔</a>
-        <h2>Your Performance</h2>
-        <p>View Key Performance Indicators <br>Risk Level {risk}</p>
-      </div>
-    </div>
-  </section>
-</body>
-<script>
-    fetch("/employeeDashboard/<name>")
-    .then((response) => response.json())
-    .then((data) => renderMentors(data))
-    .catch((error) => console.error("Error fetching KPI Data:", error));
-</script>
+      // Wait until the DOM content is fully loaded
+      document.addEventListener("DOMContentLoaded", function () {
+        // Find the <h1> element and replace its content with the username
+        document.getElementById("usernameDisplay").textContent = (
+          username || "Guest"
+        ).toUpperCase();
 
+        // Fetch employee data from the server
+        fetch(`/employeeDashboard/employee/${username}`)
+          .then((response) => response.json())
+          .then((data) => {
+            // Replace the risk level in the Performance card
+            document.getElementById(
+              "risk"
+            ).textContent = `Risk Level: ${data.kpi_data.risk}`;
+          })
+          .catch((error) => console.error("Error fetching KPI Data:", error));
+      });
+    </script>
+  </head>
+
+  <body>
+    <section class="dashboard">
+      <!-- Add an ID to the <h1> so we can easily target it in JavaScript -->
+      <h1 id="usernameDisplay">Loading...</h1>
+      <div class="card-container">
+        <div class="card">
+          <img
+            src="https://via.placeholder.com/300x150"
+            alt="Talent Training Image"
+          />
+          <a href="#">Look to be a better you ➔</a>
+          <h2>Talent Training</h2>
+          <a href="/mentor">Mentoring System</a>
+          <p>UpSkilling Courses</p>
+        </div>
+        <div class="card">
+          <img
+            src="https://via.placeholder.com/300x150"
+            alt="Mental Health Image"
+          />
+          <a href="#">How we can help you ➔</a>
+          <h2>Mental Health</h2>
+          <p>
+            <a href="/chatbot">Mental Health Chatbot</a> <br />
+            Wellness Plans
+          </p>
+        </div>
+        <div class="card">
+          <img
+            src="https://via.placeholder.com/300x150"
+            alt="Your Details Image"
+          />
+          <a href="#">How we can help you ➔</a>
+          <h2>Your Details</h2>
+          <p>
+            Update Particulars <br />
+            Manage Account
+          </p>
+        </div>
+        <div class="card">
+          <img
+            src="https://via.placeholder.com/300x150"
+            alt="Your Details Image"
+          />
+          <a href="#">For your Attention ➔</a>
+          <h2>Your Performance</h2>
+          <p>
+            View Key Performance Indicators <br />
+            <span id="risk">Risk Level: Loading...</span>
+          </p>
+        </div>
+      </div>
+    </section>
+  </body>
 </html>
-
