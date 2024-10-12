@@ -6,6 +6,7 @@ dbCollection = db.collection("employees")
 login = Blueprint('login', __name__)
 
 
+
 @login.route('/', methods=['GET'])
 def show_form():
     return render_template('login.html')
