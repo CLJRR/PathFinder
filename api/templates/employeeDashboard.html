@@ -48,11 +48,17 @@
         <img src="https://via.placeholder.com/300x150" alt="Your Details Image">
         <a href="#">For your Attention ➔</a>
         <h2>Your Performance</h2>
-        <p>View Key Performance Indicators <br>Risk Level</p>
+        <p>View Key Performance Indicators <br>Risk Level {risk}</p>
       </div>
     </div>
   </section>
 </body>
+<script>
+    fetch("/employeeDashboard/<name>")
+    .then((response) => response.json())
+    .then((data) => renderMentors(data))
+    .catch((error) => console.error("Error fetching KPI Data:", error));
+</script>
 
 </html>
 
