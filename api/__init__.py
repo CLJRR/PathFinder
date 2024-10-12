@@ -14,10 +14,11 @@ def create_app():
         from .employeeAPI import employeeAPI
         from .adminlogin import adminlogin
         from .mentorAPI import mentorAPI
+        from .adminAPI import adminAPI
         app.register_blueprint(userAPI,url_prefix='/user')
         app.register_blueprint(employeeAPI,url_prefix='/employeeDashboard')
         app.register_blueprint(login,url_prefix='/login')
-        #app.register_blueprint(adminAPI,url_prefix='/adminDashboard')
+        app.register_blueprint(adminAPI,url_prefix='/adminDashboard')
         app.register_blueprint(adminlogin,url_prefix='/adminlogin')
         app.register_blueprint(mentorAPI,url_prefix='/mentor')
         @app.route('/')
