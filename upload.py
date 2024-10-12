@@ -17,7 +17,7 @@ with open('list_worker_resumes.json', 'r') as f:
 
 for resume in resumes_list:
     # Use the "name" field as the document ID
-    doc_ref = db.collection('mentor_test').document(resume['name'])
+    doc_ref = db.collection('mentors').document(resume['name'])
     doc_ref.set(resume)
 
 print("Resumes have been uploaded to Firestore!")

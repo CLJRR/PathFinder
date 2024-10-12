@@ -5,8 +5,14 @@ db = firestore.client()
 dbCollection = db.collection("mentors")
 mentorAPI = Blueprint("mentorAPI",__name__)
 
+
 @mentorAPI.route('/', methods=['GET'])
-def showallmentor():
+def showmentorpage():
+    return render_template("mentors.html")
+
+
+@mentorAPI.route('/getall', methods=['GET'])
+def getallmentor():
     # Get the document for the user
     users = dbCollection.stream()
     all_users_data = []

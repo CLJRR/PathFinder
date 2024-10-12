@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mentor Information</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .mentor-card {
+        border: 1px solid #ccc;
+        padding: 16px;
+        margin: 16px;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+      }
+      .mentor-card h2 {
+        color: #333;
+      }
+      .mentor-card ul {
+        list-style-type: none;
+        padding: 0;
+      }
+      .mentor-card ul li {
+        margin: 5px 0;
+      }
+      .experience {
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Mentor Information</h1>
+
+    <div id="mentor-list"></div>
+
+    <script>
+      // Function to render mentor data dynamically
+      function renderMentors(mentorList) {
+        const mentorContainer = document.getElementById("mentor-list");
+        mentorList.forEach((mentor) => {
+          const mentorCard = document.createElement("div");
+          mentorCard.classList.add("mentor-card");
+
+          const mentorInfo = `
+                    <h2>${mentor.name} (${mentor.position})</h2>
+                    <p><strong>Email:</strong> ${mentor.email}</p>
+                    <p><strong>Phone:</strong> ${mentor.phone}</p>
+                    <p><strong>Summary:</strong> ${mentor.summary}</p>
+                    <p><strong>Skills:</strong> ${
+                      mentor.skills.length > 0
+                        ? mentor.skills.join(", ")
+                        : "No skills listed"
+                    }</p>
+                    <div class="experience">
+                        <h3>Experience</h3>
+                        <ul>
+                            ${mentor.experience
+                              .map(
+                                (exp) => `
+                                <li>
+                                    <strong>${exp.role}</strong> at <strong>${
+                                  exp.company
+                                }</strong> (${exp.duration})
+                                    <ul>
+                                        ${exp.responsibilities
+                                          .map((resp) => `<li>${resp}</li>`)
+                                          .join("")}
+                                    </ul>
+                                </li>
+                            `
+                              )
+                              .join("")}
+                        </ul>
+                    </div>
+                `;
+
+          mentorCard.innerHTML = mentorInfo;
+          mentorContainer.appendChild(mentorCard);
+        });
+      }
+
+      // Fetch mentor data from your API endpoint
+      fetch("/mentor/getall")
+        .then((response) => response.json())
+        .then((data) => renderMentors(data))
+        .catch((error) => console.error("Error fetching mentor data:", error));
+    </script>
+  </body>
+</html>
