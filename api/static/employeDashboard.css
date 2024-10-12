@@ -37,8 +37,9 @@
   
   .card img {
     width: 100%;
-    height: auto;
+    height: 100%;
     border-radius: 8px;
+    object-fit: cover;
   }
   
   .card h2 {
@@ -63,3 +64,12 @@
     transform: scale(1.05);
   }
   
+  .card .image-container{
+    height: 150px; /* Set a fixed height for all image containers */
+    width: 100%; /* Full width of the card */
+    overflow: hidden; /* Hides parts of the image that overflow the container */
+  }
+
+ img{
+    margin: 0;
+ }
